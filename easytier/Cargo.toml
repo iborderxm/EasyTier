@@ -349,14 +349,10 @@ tokio-socks = "0.5.2"
 
 [features]
 default = [
-    "wireguard",
-    "websocket",
     "smoltcp",
     "tun",
     "socks5",
     "kcp",
-    "quic",
-    "faketcp",
     "magic-dns",
     "zstd",
 ]
