@@ -87,7 +87,7 @@ jobs:
       - name: Build (MIPS)
         if: ${{ contains(matrix.TARGET, 'mips') }}
         run: |
-            # 设置并行度
+          # 设置并行度
           export CARGO_BUILD_JOBS=$(nproc)
           cargo +nightly-2026-02-02 build -r --target $TARGET -Z build-std=std,panic_abort --package=easytier --features=jemalloc --strip
 
