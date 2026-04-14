@@ -136,42 +136,9 @@ jobs:
           path: |
             ./artifacts/*
 
-  build_magisk:
-    runs-on: ubuntu-latest
-    needs: [ pre_job, build ]
-    if: needs.pre_job.result == 'success' && needs.pre_job.outputs.should_skip != 'true' && !cancelled()
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v5  # 必须先检出代码才能获取模块配置
-
-      # 下载二进制文件到独立目录
-      - name: Download Linux binaries
-        uses: actions/download-artifact@v4
-        with:
-          name: easytier-${{ matrix.ARTIFACT_NAME }}-${{ env.UPDATE_DATETIME }}
-          path: ./downloaded-binaries/  # 独立目录避免冲突
-
-      # 将二进制文件复制到 Magisk 模块目录
-      - name: Prepare binaries
-        run: |
-          mkdir -p ./easytier-contrib/easytier-magisk/
-          cp ./downloaded-binaries/easytier-core ./easytier-contrib/easytier-magisk/
-          cp ./downloaded-binaries/easytier-cli ./easytier-contrib/easytier-magisk/
-
-      # 上传生成的模块
-      - name: Upload Magisk Module
-        uses: actions/upload-artifact@v5
-        with:
-          name: Easytier-Magisk
-          path: |
-            ./easytier-contrib/easytier-magisk
-            !./easytier-contrib/easytier-magisk/build.sh
-            !./easytier-contrib/easytier-magisk/magisk_update.json
-          if-no-files-found: error
-
   core-result:
     runs-on: ubuntu-latest
-    needs: [ pre_job, build, build_magisk ]
+    needs: [ pre_job, build ]
     if: needs.pre_job.result == 'success' && needs.pre_job.outputs.should_skip != 'true' && !cancelled()
     steps:
       - name: Mark result as failed
