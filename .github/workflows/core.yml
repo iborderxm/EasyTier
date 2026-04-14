@@ -73,13 +73,19 @@ jobs:
           # default: "v0-rust"
           prefix-key: ""
           shared-key: "core-registry"
-          cache-targets: "true"  # 启用目标缓存
-          cache-all-crates: "true"  # 缓存所有依赖
+          cache-targets: "false"
+
+      - uses: mlugg/setup-zig@v2
+        if: ${{ contains(matrix.OS, 'ubuntu') }}
+
+      - uses: taiki-e/install-action@v2
+        if: ${{ contains(matrix.OS, 'ubuntu') }}
+        with:
+          tool: cargo-zigbuild
 
       - name: Build (MIPS)
         if: ${{ contains(matrix.TARGET, 'mips') }}
         run: |
-          export CARGO_BUILD_JOBS=$(nproc)
           cargo +nightly-2026-02-02 build -r --target $TARGET -Z build-std=std,panic_abort --package=easytier --features=jemalloc
 
       - name: Compress
