@@ -26,5 +26,5 @@ debug = 2
 panic = "abort"
 lto = true
 codegen-units = 16
-opt-level = z
+opt-level = s
 strip = true
