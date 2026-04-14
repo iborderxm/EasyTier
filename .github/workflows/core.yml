@@ -126,10 +126,13 @@ jobs:
           mv ./artifacts/objects/* ./artifacts/
           rm -rf ./artifacts/objects/
 
+          UPDATE_DATETIME=$(TZ=Asia/Shanghai date +'%Y-%m-%d-%H-%M')
+          echo "UPDATE_DATETIME=${UPDATE_DATETIME}" >> ${GITHUB_ENV}
+
       - name: Archive artifact
         uses: actions/upload-artifact@v5
         with:
-          name: easytier-${{ matrix.ARTIFACT_NAME }}
+          name: easytier-${{ matrix.ARTIFACT_NAME }}-${{ env.UPDATE_DATETIME }}
           path: |
             ./artifacts/*
 
@@ -145,7 +148,7 @@ jobs:
       - name: Download Linux binaries
         uses: actions/download-artifact@v4
         with:
-          name: easytier-linux-mipsel
+          name: easytier-${{ matrix.ARTIFACT_NAME }}-${{ env.UPDATE_DATETIME }}
           path: ./downloaded-binaries/  # 独立目录避免冲突
 
       # 将二进制文件复制到 Magisk 模块目录
