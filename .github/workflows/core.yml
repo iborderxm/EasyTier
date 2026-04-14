@@ -86,9 +86,6 @@ jobs:
       - name: Build (MIPS)
         if: ${{ contains(matrix.TARGET, 'mips') }}
         run: |
-          # 检查打印当前分支
-          echo "Current branch: $(git branch --show-current)" >> $GITHUB_ENV
-          git checkout iborder
           cargo +nightly-2026-02-02 build -r --target $TARGET -Z build-std=std,panic_abort --package=easytier --features=jemalloc
 
       - name: Compress
