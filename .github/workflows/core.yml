@@ -75,14 +75,6 @@ jobs:
           shared-key: "core-registry"
           cache-targets: "false"
 
-      - uses: mlugg/setup-zig@v2
-        if: ${{ contains(matrix.OS, 'ubuntu') }}
-
-      - uses: taiki-e/install-action@v2
-        if: ${{ contains(matrix.OS, 'ubuntu') }}
-        with:
-          tool: cargo-zigbuild
-
       - name: Build (MIPS)
         if: ${{ contains(matrix.TARGET, 'mips') }}
         run: |
