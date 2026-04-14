@@ -349,10 +349,7 @@ tokio-socks = "0.5.2"
 
 [features]
 default = [
-    "smoltcp",
     "tun",
-    "socks5",
-    "kcp",
     "zstd",
 ]
 full = [
